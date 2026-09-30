@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import { Wrapper } from "../../../core/Wrapper";
 import { getDocumentData } from "../../../utils";
 import { BillOfLadingDocument, BillOfLadingSchema } from "./types";
+import { TERMS_HEADER, TERMS_PARTS } from "./termsAndConditions";
 
 export const BillOfLadingTemplate: FunctionComponent<
   TemplateProps<BillOfLadingSchema>
@@ -225,6 +226,27 @@ export const BillOfLadingTemplate: FunctionComponent<
           <div className="mt-2 font-mono text-[9px] uppercase">
             Contract Conditions: {transportContractDocumentConditions || "AS PER CARRIER STANDARD TARIFF"}
           </div>
+        </div>
+
+        {/* --- Terms and Conditions (static text) --- */}
+        <div className="p-4 text-[8px] leading-snug text-justify font-serif">
+          <h2 className="text-xs font-black uppercase tracking-widest font-sans">{TERMS_HEADER.title}</h2>
+          <p className="font-sans mb-3">
+            <b>Service Provider:</b> {TERMS_HEADER.provider} &nbsp;|&nbsp; <b>System:</b> {TERMS_HEADER.system}
+          </p>
+          {TERMS_PARTS.map((part) => (
+            <section key={part.title} className="mb-3">
+              <h3 className="text-[10px] font-black uppercase tracking-widest font-sans border-b border-black mb-2">{part.title}</h3>
+              <div className="columns-2 gap-6">
+                {part.items.map((item, i) => (
+                  <div key={i} className="mb-2 break-inside-avoid-column">
+                    {item.h && <div className="font-bold font-sans">{item.h}</div>}
+                    {item.p.map((text, j) => <p key={j} className="mb-1">{text}</p>)}
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))}
         </div>
       </div>
     </Wrapper>
